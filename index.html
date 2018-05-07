@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+		<select name="" id="arc_type">
+			<option value="">Select</option>
+			<option value="WARP_ARC">Arc</option>
+			<option value="WARP_ARC_LOWER">Arc Lower</option>
+			<option value="WARP_ARC_UPPER">Arc Upper</option>
+			<option value="WARP_ARCH">Arch</option>
+			<option value="WARP_BULGE">Bulge</option>
+			<option value="WARP_FLAG">Flag</option>
+			<option value="WARP_FISH">Fish</option>
+			<option value="WARP_RISE">Rise</option>
+			<option value="WARP_INFLATE">Inflate</option>
+			<option value="WARP_SQUEEZE">Squeeze</option>
+			<option value="WARP_WAVE_LOWER">Wave Lower</option>
+			<option value="WARP_WAVE_UPPER">Wave Upper</option>
+		</select>
+
+		<div>
+			<label for="bend_control">Bend</label>
+			<input type="range" min="-100" value="0" max="100" id="bend_control">
+			<button value="bend_control">Reset</button>
+		</div>
+		<div>
+			<label for="horizontal_control">Horizontal Distort</label>
+			<input type="range" min="-100" value="0" max="100" id="horizontal_control">
+			<button value="horizontal_control">Reset</button>
+		</div>
+		<div>
+			<label for="vertical_control">Vertical Distort</label>
+			<input type="range" min="-100" value="0" max="100" id="vertical_control">
+			<button value="vertical_control">Reset</button>
+		</div>
+	</div>
+	<!-- <select name="" id=""></select> -->
+	<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" ver="4" width="6ft" height="3ft">
+		<path transform="matrix(1 0 0 1 107.4 80.15)" d="M4.912 0 L10.912 0 L17.312 -23.328 L12.384 -23.328 L8.464 -7.072 L8.4 -7.072 L5.632 -23.328 L-0.304 -23.328 L4.912 0 M17.88 -18.608 L23.192 -18.608 L23.192 -23.328 L17.88 -23.328 L17.88 -18.608 M17.88 0 L23.192 0 L23.192 -16.448 L17.88 -16.448 L17.88 0 M25.708 0 L31.02 0 L31.02 -12.016 L31.324 -12.416 Q31.852 -13.104 32.7 -13.104 Q33.964 -13.104 33.964 -11.632 L33.964 0 L39.276 0 L39.276 -13.136 Q39.276 -14.832 38.332 -15.84 Q37.372 -16.848 35.772 -16.848 Q32.812 -16.848 31.084 -14.256 L31.02 -14.256 L31.02 -16.448 L25.708 -16.448 L25.708 0 M49.34 -4.192 L49.34 -4.192 Q48.444 -3.136 47.644 -3.136 Q46.924 -3.136 46.524 -3.6 Q46.108 -4.064 46.108 -4.912 Q46.108 -6.064 46.476 -6.688 Q46.844 -7.312 47.516 -7.536 Q48.172 -7.776 49.34 -7.888 L49.34 -4.192 M49.34 -10.448 L49.34 -10.448 Q47.324 -10.4 45.372 -9.84 Q43.42 -9.28 42.108 -7.984 Q40.796 -6.704 40.796 -4.656 Q40.796 -2.272 42.076 -0.928 Q43.34 0.4 45.516 0.4 Q47.884 0.4 49.516 -1.488 Q49.516 -1.456 49.564 -0.864 Q49.612 -0.288 49.676 0 L55.148 0 Q54.652 -0.592 54.652 -2.656 L54.652 -11.84 Q54.652 -13.536 53.74 -14.672 Q52.812 -15.808 51.34 -16.336 Q49.868 -16.848 48.172 -16.848 Q46.588 -16.848 45.212 -16.368 Q43.82 -15.888 42.86 -14.864 Q41.9 -13.84 41.628 -12.288 L46.236 -11.328 Q46.332 -12.208 46.748 -12.848 Q47.164 -13.504 47.964 -13.504 Q48.636 -13.504 48.988 -12.944 Q49.34 -12.368 49.34 -11.568 L49.34 -10.448 M55.428 -16.448 L59.7 -2.272 Q59.924 -1.536 59.924 -0.784 Q59.924 1.168 56.948 1.168 Q56.292 1.168 55.54 1.008 L55.54 4.784 Q56.58 4.912 57.108 4.912 Q58.788 4.912 60.068 4.512 Q61.348 4.112 62.308 3.136 Q63.252 2.16 63.796 0.528 L69.332 -16.448 L65.172 -16.448 L62.9 -6.912 L62.836 -6.912 L60.9 -16.448 L55.428 -16.448"></path>
+	</svg>
+
+	<script src="path-warp.js"></script>
+	<script>
+		var path = document.querySelector('path');
+		var base_d = path.getAttribute('d');
+		var bend_control = document.querySelector('#bend_control');
+		var horizontal_control = document.querySelector('#horizontal_control');
+		var vertical_control = document.querySelector('#vertical_control');
+		var arc_type = document.querySelector('#arc_type');
+
+		bend_control.addEventListener('change', changePath);
+		horizontal_control.addEventListener('change', changePath);
+		vertical_control.addEventListener('change', changePath);
+		arc_type.addEventListener('change', changePath);
+		document.addEventListener('click', function(e){
+			if( e.target instanceof HTMLButtonElement ) {
+				window[e.target.value].value = 0;
+				changePath();
+			}
+		});
+
+		function changePath() {
+			var p = new Path(base_d);
+			// console.log('bend_control.', bend_control.value);
+			// console.log('horizontal_control.', horizontal_control.value);
+			// console.log('vertical_control.', vertical_control.value);
+			// console.log('arc_type.', arc_type.value);
+			p.warp({
+				type: arc_type.value,
+				bend : (bend_control.value / 100) || 0,
+				distortV : (horizontal_control.value / 100) || 0,
+				distortH : (vertical_control.value / 100) || 0,
+			});
+			path.setAttribute('d', p.output());
+		}
+
+	</script>
+</body>
+</html>
