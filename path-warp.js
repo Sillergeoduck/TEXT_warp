@@ -169,7 +169,7 @@
         }
         setRise() {
             var t = this._parameters;
-            this.A.y += t.bend * this.kAB * source.height, this.D.y += t.bend * this.kCD * source.height, this.B.y -= t.bend * this.kAB * source.height, this.C.y -= t.bend * this.kCD * source.height, this.calculateArms(), this.setControls();
+            this.A.y += t.bend * this.kAB * this.source.height, this.D.y += t.bend * this.kCD * this.source.height, this.B.y -= t.bend * this.kAB * this.source.height, this.C.y -= t.bend * this.kCD * this.source.height, this.calculateArms(), this.setControls();
             var s = this.ADy + this.BCy;
             this.Atop.y += t.bend * this.kAB * s, this.Btop.y -= t.bend * this.kAB * s, this.Dbottom.y += t.bend * this.kCD * s, this.Cbottom.y -= t.bend * this.kCD * s
         }
